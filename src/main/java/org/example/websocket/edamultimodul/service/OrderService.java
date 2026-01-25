@@ -7,11 +7,13 @@ import org.example.websocket.edamultimodul.entity.InventoryEntity;
 import org.example.websocket.edamultimodul.entity.OrderEntity;
 import org.example.websocket.edamultimodul.entity.ProductEntity;
 import org.example.websocket.edamultimodul.entity.enums.OrderType;
+import org.example.websocket.edamultimodul.event.OrderBuyEvent;
 import org.example.websocket.edamultimodul.exception.BuyException;
 import org.example.websocket.edamultimodul.exception.ExistProductException;
 import org.example.websocket.edamultimodul.repository.InventoryRepository;
 import org.example.websocket.edamultimodul.repository.OrderRepository;
 import org.example.websocket.edamultimodul.repository.ProductRepository;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -20,6 +22,7 @@ public class OrderService {
     private final OrderRepository orderRepository;
     private final ProductRepository productRepository;
     private final InventoryRepository inventoryRepository;
+    private final ApplicationEventPublisher eventPublisher;
 
     @Transactional
     public OrderEntity buy(BuyOrderDto buyOrderDto) throws ExistProductException, BuyException {
@@ -38,6 +41,8 @@ public class OrderService {
                 .product(product)
                 .inventory(inventory)
                 .build();
+
+        //eventPublisher.publishEvent(new OrderBuyEvent());
 
         return orderRepository.save(orderEntity);
     }
