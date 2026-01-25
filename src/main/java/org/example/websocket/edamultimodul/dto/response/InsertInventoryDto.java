@@ -9,13 +9,13 @@ import org.example.websocket.edamultimodul.entity.MemberEntity;
 @Builder
 public class InsertInventoryDto {
     private Long id;
-    private ProductListDto productListDto;
+    private Long product;
     private Integer quantity;
 
     public static InsertInventoryDto of (InventoryEntity inventoryEntity) {
         return InsertInventoryDto.builder()
                 .id(inventoryEntity.getId())
-                .productListDto(ProductListDto.of(inventoryEntity.getProduct()))
+                .product(inventoryEntity.getProduct())
                 .quantity(inventoryEntity.getQuantity()).build();
     }
 }

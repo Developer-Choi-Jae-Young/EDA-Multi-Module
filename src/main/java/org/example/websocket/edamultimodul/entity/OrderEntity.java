@@ -20,10 +20,8 @@ public class OrderEntity {
     @Enumerated(EnumType.STRING)
     private OrderType orderType;
     private Integer quantity;
-    @ManyToOne
-    @JoinColumn(name = "productId")
-    private ProductEntity product;
-    @ManyToOne
-    @JoinColumn(name = "inventoryId")
-    private InventoryEntity inventory;
+    @Column(name = "productId")
+    private Long product;
+    @Column(name = "inventoryId")
+    private Long inventory;
 }

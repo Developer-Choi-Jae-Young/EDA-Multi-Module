@@ -7,15 +7,15 @@ import org.example.websocket.edamultimodul.entity.OrderEntity;
 @Data
 @Builder
 public class BuyOrderDto {
-    private ProductListDto product;
+    private Long product;
     private Integer quantity;
-    private InventoryListDto inventory;
+    private Long inventory;
 
     public static BuyOrderDto of(OrderEntity orderEntity) {
         return BuyOrderDto.builder()
-                .product(ProductListDto.of(orderEntity.getProduct()))
+                .product(orderEntity.getProduct())
+                .inventory(orderEntity.getInventory())
                 .quantity(orderEntity.getQuantity())
-                .inventory(InventoryListDto.of(orderEntity.getInventory()))
                 .build();
     }
 }

@@ -17,9 +17,8 @@ public class InventoryEntity {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private Integer quantity;
-    @ManyToOne
-    @JoinColumn(name = "productId")
-    private ProductEntity product;
+    @Column(name = "productId")
+    private Long product;
 
     public void decrementInventory(int quantity) {
         this.quantity-= quantity;

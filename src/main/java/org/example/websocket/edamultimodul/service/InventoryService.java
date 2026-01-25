@@ -5,9 +5,11 @@ import lombok.RequiredArgsConstructor;
 import org.example.websocket.edamultimodul.dto.request.InsertInventoryDto;
 import org.example.websocket.edamultimodul.entity.InventoryEntity;
 import org.example.websocket.edamultimodul.entity.ProductEntity;
+import org.example.websocket.edamultimodul.event.ProductGetItemEvent;
 import org.example.websocket.edamultimodul.exception.ExistProductException;
 import org.example.websocket.edamultimodul.repository.InventoryRepository;
 import org.example.websocket.edamultimodul.repository.ProductRepository;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,7 +18,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class InventoryService {
     private final InventoryRepository inventoryRepository;
-    private final ProductRepository productRepository;
+    private final ApplicationEventPublisher eventPublisher;
 
     public List<InventoryEntity> getInventoryList() {
         return inventoryRepository.findAll();
@@ -24,10 +26,13 @@ public class InventoryService {
 
     @Transactional
     public InventoryEntity insertInventory(InsertInventoryDto insertInventoryDto) throws ExistProductException {
-        ProductEntity product = productRepository.findById(insertInventoryDto.getProductId()).orElseThrow(() -> new ExistProductException("상품이 존재하지 않습니다.", 100));
+        ProductGetItemEvent event = new ProductGetItemEvent(insertInventoryDto.getProductId());
+        eventPublisher.publishEvent(event);
+
         InventoryEntity inventory = InventoryEntity.builder()
-                                    .product(product)
+                                    .product(event.getProductId())
                                     .quantity(insertInventoryDto.getQuantity()).build();
+
         return inventoryRepository.save(inventory);
     }
 }
