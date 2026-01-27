@@ -14,6 +14,9 @@ import org.springframework.stereotype.Component;
 public class InventoryEventHandler {
     private final InventoryRepository inventoryRepository;
 
+    /**
+     * 동시성 문제 미해결
+     */
     @EventListener
     public void InventoryDecrement(InventoryDecrementEvent inventoryDecrementEvent) throws BuyException, ExistInventoryException {
         InventoryEntity inventory = inventoryRepository.findByProduct(inventoryDecrementEvent.getProductId())
