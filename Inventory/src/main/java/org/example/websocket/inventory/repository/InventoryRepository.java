@@ -8,5 +8,6 @@ import java.util.Optional;
 
 @Repository
 public interface InventoryRepository extends JpaRepository<InventoryEntity,Long> {
+//    @Lock(LockModeType.PESSIMISTIC_WRITE)  // <- 비관적 쓰기 락
     Optional<InventoryEntity> findByProduct(Long productId);
 }
