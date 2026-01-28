@@ -20,8 +20,8 @@ public class InventoryEntity {
     @Column(name = "productId")
     private Long product;
 
-//    @Version  // <- 버전 컬럼 추가
-//    private Long version;
+    @Version  // <- 버전 컬럼 추가
+    private Long version;
 
     public void decrementInventory(int quantity) {
         this.quantity-= quantity;
