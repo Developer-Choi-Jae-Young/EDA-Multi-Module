@@ -4,6 +4,9 @@ dependencies {
     
     // Web (Controller, RestController 등)
     implementation 'org.springframework.boot:spring-boot-starter-web'
+    
+    // Redis (분산 락용)
+    implementation 'org.springframework.boot:spring-boot-starter-data-redis'
 }
 
 tasks.named('test') {
