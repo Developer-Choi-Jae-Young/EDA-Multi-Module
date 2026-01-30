@@ -65,3 +65,13 @@ git checkout v6
 # 빌드 및 실행
 ./gradlew clean build
 java -jar build/libs/*.jar
+```
+---
+## 참조
+1. https://effortguy.tistory.com/487
+2. https://velog.io/@hyojhand/%EC%83%81%ED%92%88-%EC%A3%BC%EB%AC%B8-%EB%8F%99%EC%8B%9C%EC%84%B1-%EB%AC%B8%EC%A0%9C-%ED%95%B4%EA%B2%B0%ED%95%98%EA%B8%B0-DeadLock-%EB%82%99%EA%B4%80%EC%A0%81-%EB%9D%BD-%EB%B9%84%EA%B4%80%EC%A0%81-%EB%9D%BD
+3. https://dev-yujji.tistory.com/77
+4. https://ttl-blog.tistory.com/1567
+5. https://ttl-blog.tistory.com/1568
+6. https://ttl-blog.tistory.com/1569
+7. https://ttl-blog.tistory.com/1581
