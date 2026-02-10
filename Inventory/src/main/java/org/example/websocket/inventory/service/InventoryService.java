@@ -4,6 +4,7 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.example.websocket.common.exception.ExistProductException;
 import org.example.websocket.common.event.ProductGetItemEvent;
+import org.example.websocket.common.utils.ResultHolder;
 import org.example.websocket.inventory.dto.request.InsertInventoryDto;
 import org.example.websocket.inventory.entity.InventoryEntity;
 import org.example.websocket.inventory.repository.InventoryRepository;
@@ -24,11 +25,12 @@ public class InventoryService {
 
     @Transactional
     public InventoryEntity insertInventory(InsertInventoryDto insertInventoryDto) throws ExistProductException {
-        ProductGetItemEvent event = new ProductGetItemEvent(insertInventoryDto.getProductId());
+        ResultHolder<Long> productId = new ResultHolder<>();
+        ProductGetItemEvent event = new ProductGetItemEvent(insertInventoryDto.getProductId() , productId::setValue);
         eventPublisher.publishEvent(event);
 
         InventoryEntity inventory = InventoryEntity.builder()
-                                    .product(event.getProductId())
+                                    .product(productId.getValue())
                                     .quantity(insertInventoryDto.getQuantity()).build();
 
         return inventoryRepository.save(inventory);

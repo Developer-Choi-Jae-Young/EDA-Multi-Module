@@ -3,6 +3,7 @@ package org.example.websocket.order.service;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.example.websocket.common.event.InventoryDecrementEvent;
+import org.example.websocket.common.utils.ResultHolder;
 import org.example.websocket.order.dto.request.BuyOrderDto;
 import org.example.websocket.order.entity.OrderEntity;
 import org.example.websocket.order.entity.enums.OrderType;
@@ -18,14 +19,15 @@ public class OrderService {
 
     @Transactional
     public OrderEntity buy(BuyOrderDto buyOrderDto) {
-        InventoryDecrementEvent inventoryEvent = new InventoryDecrementEvent(buyOrderDto.getProductId(), buyOrderDto.getQuantity());
+        ResultHolder<Long> inventoryId = new ResultHolder<>();
+        InventoryDecrementEvent inventoryEvent = new InventoryDecrementEvent(buyOrderDto.getQuantity(), buyOrderDto.getProductId(), inventoryId::setValue);
         eventPublisher.publishEvent(inventoryEvent);
 
         OrderEntity orderEntity = OrderEntity.builder()
                 .orderType(OrderType.DECREMENT)
                 .quantity(buyOrderDto.getQuantity())
-                .inventory(inventoryEvent.getInventoryId())
-                .product(inventoryEvent.getProductId())
+                .inventory(inventoryId.getValue())
+                .product(buyOrderDto.getProductId())
                 .build();
 
         return orderRepository.save(orderEntity);

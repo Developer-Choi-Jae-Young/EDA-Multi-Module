@@ -27,6 +27,6 @@ public class InventoryEventHandler {
         }
 
         inventory.decrementInventory(inventoryDecrementEvent.getQuantity());
-        inventoryDecrementEvent.setInventoryId(inventory.getId());
+        inventoryDecrementEvent.getConsumer().accept(inventory.getId());
     }
 }

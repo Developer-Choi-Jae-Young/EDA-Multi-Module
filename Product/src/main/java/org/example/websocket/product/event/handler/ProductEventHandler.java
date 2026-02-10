@@ -16,6 +16,6 @@ public class ProductEventHandler {
     @EventListener
     public void getProductItem(ProductGetItemEvent productGetItemEvent) throws ExistProductException {
         ProductEntity product = productRepository.findById(productGetItemEvent.getProductId()).orElseThrow(() -> new ExistProductException("상품이 존재하지 않습니다.", 100));
-        productGetItemEvent.setProductId(product.getId());
+        productGetItemEvent.getConsumer().accept(product.getId());
     }
 }
